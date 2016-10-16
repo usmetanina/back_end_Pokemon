@@ -17,7 +17,7 @@ class Model{
 		// считаем файл
 		$data=file_get_contents($this->dataFileName);
 		// декодируем 
-		$data=json_decode($data);
+		$data=json_decode($data,true);
 
 		// если id не передан - то возвращаем все записи, иначе только нужную
 		if($id===false){
@@ -37,7 +37,8 @@ class Model{
 		// декодируем
 		$data=json_decode($data,true);
 		
-		array_push($data,$item);
+		//array_push($data,$item);
+		$data[]=$item;
 		// сохраняем файл, и возврfщаем результат сохранения (успех или провал)
 		return file_put_contents($this->dataFileName, json_encode($data));
 	}
@@ -49,7 +50,17 @@ class Model{
 		// декодируем
 		$data=json_decode($data,true);
 		// изменяем элемент
-				$data[$id]  = $item ;
+		$newitem=$data[$id];
+		
+		foreach ($item as $key => $value)
+		{
+			if ($value==NULL)
+				$newitem[$key]=$data[$id][$key];
+			else 
+				$newitem[$key]=$item[$key];
+		}
+		//echo "$newitem";
+		$data[$id]= $newitem ;
 		// сохраняем файл, и возврaщаем результат апдейта (успех или провал)
 		return file_put_contents($this->dataFileName, json_encode($data));
 	}
