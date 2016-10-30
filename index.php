@@ -27,5 +27,5 @@ if($response){
 	header('Content-Type: application/json');
 	echo json_encode($response);
 }else{
-	header("HTTP/1.0 404 Not Found"); // если ответило false то выводим ошибку
+	//header("HTTP/1.0 404 Not Found"); // если ответило false то выводим ошибку
 }

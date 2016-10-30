@@ -1,0 +1,12 @@
+<div ng-controller="userController">
+<table class="toplist">
+   <tr>
+    <th>Очки</th>
+    <th>Имя</th>
+   </tr>
+	<tr ng-repeat="user in users | orderBy: 'score' ">
+		<td>{{user.score}}</td>
+		<td>{{user.name}}</td>
+	</tr>
+  </table>		
+</div>

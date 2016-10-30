@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html ng-app="game">
+<head>
+   <meta charset="utf-8">
+   <link href="../css/style.css" rel="stylesheet">
+   <script src="../js/lib/angular.js"></script>
+   <script src="../js/lib/angular-route.js"></script>
+   <script src="../js/lib/angular-resource.js"></script>
+   <script src="../js/app.js"></script>
+   <title>Game</title>
+</head>
+
+<body>
+	
+	<div class ="logo">
+		<a  href="index.php"> PokemonchikGo </a>
+	</div>
+	
+	<div ng-controller="menuController">
+		<ul  class="mainmenu" ng-repeat="menuitem in menu ">
+			<li class = "mainmenu__item"> <a href={{menuitem.href}}> {{menuitem.title}} </a> </li>
+		</ul>
+	</div>
+
+	<ng-view></ng-view>
+	
+</body>
+
+</html>

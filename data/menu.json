@@ -1,1 +1,1 @@
-[[{"title":"Start"},{"href":"index.php?page=1"}],[{"title":"About"}, {"href":"index.php?page=2"}],[{"title":"Top List"},{"href":"index.php?page=3"}]]
+[{"title":"Start","href":"#/page/1"},{"title":"About", "href":"#/page/2"},{"title":"Top List","href":"#/page/3"}]
