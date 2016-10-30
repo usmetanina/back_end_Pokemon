@@ -67,3 +67,26 @@ a {
 	margin-top:25%;
 	margin-left:5%
 }
+
+.table {
+border-spacing: 0 10px;
+font-family: 'Open Sans', sans-serif;
+font-weight: bold;
+}
+.table__header {
+padding: 10px 20px;
+background: #ff0000;
+color: #000000;
+border-right: 2px solid; 
+font-size: 0.9em;
+}
+
+td {
+vertical-align: middle;
+padding: 10px;
+font-size: 14px;
+text-align: center;
+border-top: 2px;
+border-bottom: 2px;
+border-right: 2px;
+}

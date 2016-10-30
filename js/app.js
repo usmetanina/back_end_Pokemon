@@ -10,10 +10,15 @@ app.config(function($routeProvider) {
         },
         controller: "pagesController"
     })
-    .otherwise("/page/0");
+    .otherwise("/");
 })
 .controller("pagesController",function($scope,$log,$rootScope,$routeParams,$interval){
 	$scope.page=parseInt($routeParams.id) || 0;
+	$scope.ballPos={'X':0,'Y':0};
+	var tictac, tic=0;
+		
+	$scope.callToFooter=function(){
+		$rootScope.$emit('helloFooter');
 	};
 
 	$scope.start=function(){
@@ -34,11 +39,11 @@ app.config(function($routeProvider) {
   $http.get('http://localhost/?controller=menu')
   .success(function(data, status, headers, config) {
     $scope.menu = data;
-	console.log("код ответа: " +status);
-    console.log("объем данных: " + headers("content-length"));
+	$log.log("РІСЃС‘ РѕРє: " +status);
+    $log.log("РґР»РёРЅР°: " + headers("content-length"));
   })
   .error(function(data, status, headers, config){
-	  console.log("код ответа: " +status);
+	  $log.log("РЅРµ РѕРє: " +status);
 })
 }
 )
@@ -47,11 +52,11 @@ app.config(function($routeProvider) {
   $http.get('http://localhost/?controller=user')
   .success(function(data, status, headers, config) {
     $scope.users = data;
-	console.log("код ответа: " +status);
-    console.log("объем данных: " + headers("content-length"));
+	$log.log("РІСЃС‘ РѕРє: " +status);
+    $log.log("РґР»РёРЅР°: " + headers("content-length"));
   })
   .error(function(data, status, headers, config){
-	  console.log("код ответа: " +status);
+	  $log.log("РЅРµ РѕРє: " +status);
 })
 }
 )
@@ -79,7 +84,7 @@ app.config(function($routeProvider) {
 /*
 .filter('plus', function(){
      return function(param){
-        // некоторые действия над param
+        // Г­ГҐГЄГ®ГІГ®Г°Г»ГҐ Г¤ГҐГ©Г±ГІГўГЁГї Г­Г Г¤ param
         return param+'+1';
     }
 }))*/

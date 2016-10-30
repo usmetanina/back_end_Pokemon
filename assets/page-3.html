@@ -1,12 +1,25 @@
 <div ng-controller="userController">
-<table class="toplist">
-   <tr>
-    <th>Очки</th>
-    <th>Имя</th>
-   </tr>
-	<tr ng-repeat="user in users | orderBy: 'score' ">
-		<td>{{user.score}}</td>
-		<td>{{user.name}}</td>
-	</tr>
-  </table>		
+
+	<table class="table" ng-init="order='id'">
+		<tr>
+			<td class="table__header" 
+				ng-class="{'table__header-active':order=='name'}" 
+				ng-click="order='name';reverse=!reverse">
+				Имя
+				<span ng-show="reverse && order=='name'">&uarr;</span>
+				<span ng-show="!reverse && order=='name'">&darr;</span></td>
+			
+			<td class="table__header" 
+			ng-class="{'table__header-active':order=='score'}" 
+			ng-click="order='score';reverse=!reverse">
+			Количество очков 
+			<span ng-show="reverse && order=='score'">&uarr;</span>
+			<span ng-show="!reverse && order=='score'">&darr;</span></td>
+		</tr>
+		<tr ng-repeat="item in users | orderBy:order:reverse">
+			<td>{{item.name}}</td>
+			<td>{{item.score}}</td>
+		</tr>
+	</table>
+
 </div>
