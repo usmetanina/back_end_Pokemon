@@ -10,45 +10,17 @@ app.config(function($routeProvider) {
         },
         controller: "pagesController"
     })
-    .otherwise("/");
+    .otherwise("/page/0");
 })
 .controller("pagesController",function($scope,$log,$rootScope,$routeParams,$interval){
 	$scope.page=parseInt($routeParams.id) || 0;
-	$scope.ballPos={'X':0,'Y':0};
-	var tictac, tic=0;
-		
-	$scope.callToFooter=function(){
-		$rootScope.$emit('helloFooter');
-	};
-
-	$scope.start=function(){
-		
-		tictac=$interval(function(){
-			tic++;
-			$scope.ballPos.X=50*Math.sin(tic/50);
-			$scope.ballPos.Y=20*Math.cos(tic/20);
-		},50);	
-	};
-	$scope.stop=function(){
-		$interval.cancel(tictac);
-	};
-	
+	$log.log("pagesController"+ $scope.page);
 })
 
-.controller("menuController", function($scope,$log,$rootScope, $http){
-  $http.get('http://localhost/?controller=menu')
-  .success(function(data, status, headers, config) {
-    $scope.menu = data;
-	$log.log("всё ок: " +status);
-    $log.log("длина: " + headers("content-length"));
-  })
-  .error(function(data, status, headers, config){
-	  $log.log("не ок: " +status);
-})
-}
-)
 
-.controller("userController", function($scope,$log,$rootScope, $http){
+.controller("userController", function($scope,$log,$rootScope, $http ,$routeParams){
+	$log.log($scope.page);
+	 $log.log($routeParams.id);
   $http.get('http://localhost/?controller=user')
   .success(function(data, status, headers, config) {
     $scope.users = data;
@@ -61,30 +33,69 @@ app.config(function($routeProvider) {
 }
 )
 
+.controller("gameplayController", function($scope,$log,$rootScope, $http){
+
+  	$scope.health = 100;
+  	$scope.time = 0;
+  	var time, tic =0;
+	$scope.ballPos={'X':0,'Y':0};
+
+  $http.get('http://localhost/?controller=pokemon')
+  .success(function(data, status, headers, config) {
+    $scope.pokemons = data;
+	$log.log("всё ок: " +status);
+    $log.log("длина: " + headers("content-length"));
+  })
+  .error(function(data, status, headers, config){
+	  $log.log("не ок: " +status);
+})
+
+  	$scope.start=function(){
+		
+		tictac=$interval(function(){
+			tic++;
+			$scope.ballPos.X=50*Math.sin(tic/50);
+			$scope.ballPos.Y=20*Math.cos(tic/20);
+		},50);	
+	};
+	$scope.stop=function(){
+		$interval.cancel(tictac);
+	};
+}
+)
+
+
 .directive("menu", function(){
 	return {
 		templateUrl:"assets/directives/menu.html",
 		replace: true,
 		restrict: 'E',
-		scope:{
-			current:'='
-		},
-		controller: function($scope){
-			/*$scope.nextPage=function(){
-				var next= 1+parseInt($scope.current);
-			return next;
-			};
-			$scope.prevPage=function(){
-				var prev= ($scope.current>0 ) ? parseInt($scope.current)-1 : 0;
-			return prev;
-			};	*/	
-		}
+
+	controller: function($scope,$log,$rootScope, $http){
+
+  		$http.get('http://localhost/?controller=menu')
+			.success(function(data, status, headers, config) {
+  				$scope.menu=data;
+				$log.log("всё ок: " +status);
+    			$log.log("длина: " + headers("content-length"));
+  			})
+  			.error(function(data, status, headers, config){
+	  			$log.log("не ок: " +status);
+			})
+
+ 		 $scope.getClass=function($item){
+  			if ($scope.page-1==$item)
+  				return ("mainmenu__item mainmenu__item__active");
+  			else 
+  				return ("mainmenu__item");
+  		};
+	}
 	}
 })
 /*
 .filter('plus', function(){
      return function(param){
         // íåêîòîðûå äåéñòâèÿ íàä param
-        return param+'+1';
+        return param+'+1'; 
     }
 }))*/

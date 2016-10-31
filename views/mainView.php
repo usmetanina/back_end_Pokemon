@@ -15,12 +15,6 @@
 	<div class ="logo">
 		<a  href="index.php"> PokemonchikGo </a>
 	</div>
-	
-	<div ng-controller="menuController">
-		<ul  class="mainmenu" ng-repeat="menuitem in menu ">
-			<li class = "mainmenu__item"> <a href={{menuitem.href}}> {{menuitem.title}} </a> </li>
-		</ul>
-	</div>
 
 	<ng-view></ng-view>
 	

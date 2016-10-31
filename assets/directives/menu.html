@@ -1,5 +1,5 @@
-<div ng-controller="menuController">
+<div >
 	<ul  class="mainmenu" ng-repeat="menuitem in menu ">
-		<li class = "mainmenu__item"> <a href={{menuitem.href}}> {{menuitem.title}} </a> </li>
+		<li class = {{getClass(menu.indexOf(menuitem))}}> <a href={{menuitem.href}}> {{menuitem.title}} </a> </li>
 	</ul>
 </div>
