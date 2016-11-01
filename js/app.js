@@ -31,7 +31,7 @@ app.config(function($routeProvider) {
 )
 
 .controller("gameplayController", function($scope,$log,$rootScope, $http){
-	$scope.score=0;
+	$rootScope.score=0;
   	$scope.health = 100;
   	$scope.time = 0;
 	$scope.level=1;
@@ -49,6 +49,39 @@ app.config(function($routeProvider) {
 }
 )
 
+
+.controller("senderController", function($scope,$log,$rootScope, $http, $window){
+$log.log($rootScope.score);
+	$scope.sendData=function()
+	{
+
+		$log.log($scope.score);
+		$log.log($scope.acquaintance.username.$modelValue);
+		if ($scope.acquaintance.username.$modelValue == null)
+			$window.alert("Заполните имя :)");
+		$http({
+	    	method: 'POST',
+	    	url: 'http://localhost/?controller=user',
+    		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    		
+    		transformRequest: function(obj) {
+        	var str = [];
+        	for(var p in obj)
+        	str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+        	return str.join("&");
+    		},
+    
+    		data: {name: $scope.acquaintance.username.$modelValue, score: $rootScope.score}
+		
+		})
+		.success(function (data) {
+			$log.log("ок");
+        	$log.log(data);
+        	document.location.href='#/page/3';
+		});
+	}
+}
+)
 
 .directive("menu", function(){
 	return {
@@ -85,7 +118,6 @@ app.config(function($routeProvider) {
 		restrict: 'E',
 
 	controller: function($scope,$log,$rootScope, $http,$interval){
-  		
   		var timer;
   		var tic =0;
   		$scope.ballPos={'X':0,'Y':0};
@@ -111,8 +143,8 @@ app.config(function($routeProvider) {
 
 	function draw() {
   			tic++;
-			$scope.ballPos.X=40*Math.sin(tic/10);
-			$scope.ballPos.Y=50*Math.cos(tic/10);
+			$scope.ballPos.X=40*Math.sin(tic/100);
+			$scope.ballPos.Y=50*Math.cos(tic/100);
 
 	}
 
@@ -124,7 +156,7 @@ app.config(function($routeProvider) {
 			$scope.endOfGame();
 		} 
 
-		$scope.score = parseInt($scope.score) + parseInt($scope.currentPokemon.power)*($scope.timePassed);
+		$rootScope.score = parseInt($rootScope.score) + parseInt($scope.currentPokemon.power)*($scope.timePassed);
 
 		$http.get('http://localhost/?controller=pokemon&id='+parseInt($scope.level))
 			.success(function(data, status, headers, config) {
