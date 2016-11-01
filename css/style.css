@@ -53,22 +53,18 @@ a {
 {
 	margin-left:13%
 }
-.startgame a
-{
-	background-color:#ff0000;
-	margin-top:20%;
-	font-weight:500;
-	border-width: 7px;
-	border-color:#ff0000;
-	border-style:inset
-}
-.startgame
-{
-	color:#ff0000;
-	margin-top:25%;
-	border-style:inset;
-	margin-left:5%
-}
+
+a.button {
+  color: #fff;
+  text-decoration: none;
+  user-select: none;
+  background: #ff0000; 
+} 
+
+a.button:hover 
+{ 
+	background: rgb(232,95,76); 
+} 
 
 .table {
 border-spacing: 0 10px;
