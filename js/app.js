@@ -25,7 +25,23 @@ app.config(function($routeProvider) {
 }
 )
 
-.controller("gameplayController", function($scope,$log,$rootScope, $http, $location){
+.factory("Game", function() {
+  var score = 0;
+  function setScore(value) {
+    score=value;
+  };
+  function getScore() {
+    return score
+  };
+
+  return {
+    getScore: getScore,
+    setScore:setScore
+  };
+})
+
+.controller("gameplayController", function($scope,$log,$rootScope, $http, $location, Game){
+	$scope.score=Game.getScore();
   	$scope.health = 100;
   	$scope.time = 0;
 	$scope.level=1;
@@ -41,7 +57,7 @@ app.config(function($routeProvider) {
 			$window.alert("Заполните имя :) ");
 		else
 		{
-			$http.post('/?controller=user', {name: $scope.acquaintance.username.$modelValue, score: $rootScope.score})
+			$http.post('/?controller=user', {name: $scope.acquaintance.username.$modelValue, score: Game.getScore()})
 			.success(function () {
 				$location.path('/page/3');
 			});
@@ -79,7 +95,7 @@ app.config(function($routeProvider) {
 		replace: true,
 		restrict: 'E',
 
-	controller: function($scope,$log,$rootScope, $http,$interval, $location){
+	controller: function($scope,$log,$rootScope, $http,$interval, $location, Game){
   		var timer;
   		var tic =0;
   		$scope.ballPos={'X':0,'Y':0};
@@ -116,10 +132,7 @@ app.config(function($routeProvider) {
 			$scope.endOfGame();
 		} 
 
-		if ($rootScope.score == null)
-			$rootScope.score = parseInt($scope.currentPokemon.power)*($scope.timePassed);
-		else
-			$rootScope.score = parseInt($rootScope.score) + parseInt($scope.currentPokemon.power)*($scope.timePassed);
+		Game.setScore(parseInt(Game.getScore()) + parseInt($scope.currentPokemon.power)*($scope.timePassed));
 
 		$http.get('?controller=pokemon&id='+parseInt($scope.level))
 			.success(function(data) {
