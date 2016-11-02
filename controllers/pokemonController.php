@@ -3,7 +3,7 @@
 class pokemonController extends Controller {
 
 	public function view($data){
-		$example=$this->model->load($data['id']); // просим у модели конкретную запись
+		$example=$this->model->load($data['id']); 
 		$this->setResponce($example);
 	}
 

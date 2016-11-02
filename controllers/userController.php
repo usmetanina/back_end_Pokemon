@@ -3,20 +3,22 @@
 class userController extends Controller {
 
 	public function view($data){
-		$example=$this->model->load($data['id']); // просим у модели конкретную запись
+		$example=$this->model->load($data['id']); 
 		$this->setResponce($example);
 	}
 
 	public function add(){
-		if(isset($_POST['name'])){
-			// мы передаем в модель массив с данными
-			// модель должна вернуть boolean
-			if (isset($_POST['score'])){
-				$dataToSave=array('name'=>$_POST['name'],
-								'score'=>$_POST['score']);
+		
+		$data=json_decode(file_get_contents('php://input'), TRUE);
+
+		if(isset($data['name'])){
+
+			if (isset($data['score'])){
+				$dataToSave=array('name'=>$data['name'],
+								'score'=>$data['score']);
 			}
 			else {
-				$dataToSave=array('name'=>$_POST['name'],
+				$dataToSave=array('name'=>$data['name'],
 								'score'=>0);
 			}
 			
@@ -26,7 +28,6 @@ class userController extends Controller {
 	}
 
 	public function edit($request){
-		// формируем $_PUT
 		$_PUT = array(); 
 		$putdata = file_get_contents('php://input'); 
 		$exploded = explode('&', $putdata);  

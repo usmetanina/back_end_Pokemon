@@ -18,67 +18,34 @@ app.config(function($routeProvider) {
 
 
 .controller("userController", function($scope,$log,$rootScope, $http){
-  $http.get('http://localhost/?controller=user')
-  .success(function(data, status, headers, config) {
+  $http.get('/?controller=user')
+  .success(function(data) {
     $scope.users = data;
-	$log.log("всё ок: " +status);
-    $log.log("длина: " + headers("content-length"));
   })
-  .error(function(data, status, headers, config){
-	  $log.log("не ок: " +status);
-})
 }
 )
 
-.controller("gameplayController", function($scope,$log,$rootScope, $http){
-	$rootScope.score=0;
+.controller("gameplayController", function($scope,$log,$rootScope, $http, $location){
   	$scope.health = 100;
   	$scope.time = 0;
 	$scope.level=1;
 
-  $http.get('http://localhost/?controller=pokemon&id=0')
-  .success(function(data, status, headers, config) {
+  $http.get('/?controller=pokemon&id=0')
+  .success(function(data) {
     $scope.currentPokemon = data;
-    $log.log($scope.currentPokemon);
-	$log.log("всё ок: " +status);
-    $log.log("длина: " + headers("content-length"));
   })
-  .error(function(data, status, headers, config){
-	  $log.log("не ок: " +status);
-})
-}
-)
 
-
-.controller("senderController", function($scope,$log,$rootScope, $http, $window){
-$log.log($rootScope.score);
-	$scope.sendData=function()
+  	$scope.sendData=function()
 	{
-
-		$log.log($scope.score);
-		$log.log($scope.acquaintance.username.$modelValue);
 		if ($scope.acquaintance.username.$modelValue == null)
-			$window.alert("Заполните имя :)");
-		$http({
-	    	method: 'POST',
-	    	url: 'http://localhost/?controller=user',
-    		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-    		
-    		transformRequest: function(obj) {
-        	var str = [];
-        	for(var p in obj)
-        	str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-        	return str.join("&");
-    		},
-    
-    		data: {name: $scope.acquaintance.username.$modelValue, score: $rootScope.score}
-		
-		})
-		.success(function (data) {
-			$log.log("ок");
-        	$log.log(data);
-        	document.location.href='#/page/3';
-		});
+			$window.alert("Заполните имя :) ");
+		else
+		{
+			$http.post('/?controller=user', {name: $scope.acquaintance.username.$modelValue, score: $rootScope.score})
+			.success(function () {
+				$location.path('/page/3');
+			});
+		}
 	}
 }
 )
@@ -91,15 +58,10 @@ $log.log($rootScope.score);
 
 	controller: function($scope,$log,$rootScope, $http){
 
-  		$http.get('http://localhost/?controller=menu')
-			.success(function(data, status, headers, config) {
+  		$http.get('/?controller=menu')
+			.success(function(data) {
   				$scope.menu=data;
-				$log.log("всё ок: " +status);
-    			$log.log("длина: " + headers("content-length"));
   			})
-  			.error(function(data, status, headers, config){
-	  			$log.log("не ок: " +status);
-			})
 
  		$scope.getClass=function($item){
   			if ($scope.page-1==$item)
@@ -117,7 +79,7 @@ $log.log($rootScope.score);
 		replace: true,
 		restrict: 'E',
 
-	controller: function($scope,$log,$rootScope, $http,$interval){
+	controller: function($scope,$log,$rootScope, $http,$interval, $location){
   		var timer;
   		var tic =0;
   		$scope.ballPos={'X':0,'Y':0};
@@ -149,32 +111,27 @@ $log.log($rootScope.score);
 	}
 
 	$scope.nextLevel=function(){
-
-		$log.log("текуший покемон "+$scope.currentPokemon);
 		if ($scope.level==3 || $scope.health <= 0)
 		{
 			$scope.endOfGame();
 		} 
 
-		$rootScope.score = parseInt($rootScope.score) + parseInt($scope.currentPokemon.power)*($scope.timePassed);
+		if ($rootScope.score == null)
+			$rootScope.score = parseInt($scope.currentPokemon.power)*($scope.timePassed);
+		else
+			$rootScope.score = parseInt($rootScope.score) + parseInt($scope.currentPokemon.power)*($scope.timePassed);
 
-		$http.get('http://localhost/?controller=pokemon&id='+parseInt($scope.level))
-			.success(function(data, status, headers, config) {
+		$http.get('?controller=pokemon&id='+parseInt($scope.level))
+			.success(function(data) {
   				$scope.currentPokemon=data;
-  				$log.log($scope.currentPokemon);
-				$log.log("всё ок: " +status);
-    			$log.log("длина: " + headers("content-length"));
   			})
-  			.error(function(data, status, headers, config){
-	  			$log.log("не ок: " +status);
-			})
 
 			$scope.level++;
 		$interval.cancel(timer);
 	};
 
 	$scope.endOfGame=function(){
-		document.location.href='#/page/5';
+		$location.path('/page/5');
 	}
 	}
 	}
