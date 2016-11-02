@@ -1,4 +1,7 @@
 <div>
-	<button ng-click="startMove()">Начать уровень</button>
+<a class="button" ng-click="startMove()">Начать уровень</a>
+<div class="pole">
+	
 	<div class="ball" style="left:{{50+ballPos.X}}%;top:{{20+ballPos.Y}}%"><img src="../picture/{{currentPokemon.image}}" alt="покемон" ng-click="nextLevel()"> </div>
+</div>
 </div>

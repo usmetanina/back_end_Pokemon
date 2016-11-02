@@ -1,8 +1,6 @@
 <div ng-controller="gameplayController">
-<p> Уровень: {{level}}</p>
-<p> Здоровье: {{health}}</p>
-<p> Очки: {{game.getScore()}}</p>
-<p> Время: {{timePassed}}</p>
-<p> Стоимость покемона: {{currentPokemon.power}} очков здоровья</p>
-<pokemon>pokemon="currentPokemon"</pokemon>
+<p class="info">Уровень: {{level}}		Здоровье: {{health}}</p>
+<p class="info">Oчки: {{game.getScore()}}			Стоимость покемона: {{currentPokemon.power}}</p>
+<p class="info">Время: {{timePassed}}	</p>
+<pokemon></pokemon>
 </div>

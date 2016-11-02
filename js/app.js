@@ -72,8 +72,8 @@ app.config(function($routeProvider) {
 		replace: true,
 		restrict: 'E',
 
-	controller: function($scope,$log,$rootScope, $http){
-
+	controller: function($scope,$log,$rootScope, $http, $routeParams){
+      $scope.page=parseInt($routeParams.id) || 0;
   		$http.get('/?controller=menu')
 			.success(function(data) {
   				$scope.menu=data;
@@ -114,8 +114,8 @@ app.config(function($routeProvider) {
 
 	function draw() {
   			tic++;
-			$scope.ballPos.X=40*Math.sin(tic/100);
-			$scope.ballPos.Y=50*Math.cos(tic/100);
+			$scope.ballPos.X=40*Math.sin(tic/50);
+			$scope.ballPos.Y=50*Math.cos(tic/60);
 
 	}
 

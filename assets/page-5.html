@@ -1,7 +1,8 @@
 <div class="forma" ng-controller="gameplayController">
+	<center><p> Поздравляем! Вы набрали {{game.getScore()}} очков! Введите ваше имя :) </p></center>
 	<form name=acquaintance>
 		<input name="username" ng-model="username">
 	</form>
-
-	<button ng-click="sendData()">Отправить</button>
+	<p></p>
+	<a class="button" ng-click="sendData()">Отправить</a>
 </div>
