@@ -41,7 +41,7 @@ app.config(function($routeProvider) {
 })
 
 .controller("gameplayController", function($scope,$log,$rootScope, $http, $location, Game){
-	$scope.score=Game.getScore();
+	$scope.game=Game;
   	$scope.health = 100;
   	$scope.time = 0;
 	$scope.level=1;
@@ -78,13 +78,6 @@ app.config(function($routeProvider) {
 			.success(function(data) {
   				$scope.menu=data;
   			})
-
- 		$scope.getClass=function($item){
-  			if ($scope.page-1==$item)
-  				return ("mainmenu__item mainmenu__item__active");
-  			else 
-  				return ("mainmenu__item");
-  		};
 	}
 	}
 })
